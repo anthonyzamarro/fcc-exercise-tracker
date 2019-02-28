@@ -97,8 +97,10 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
   
   User.findById(userId, (err, user) => {
     if (err) console.log(`error in /api/exercise/log: ${err}`);
-    if (from) {
-      
+    if (from && to) {
+      user.log.filter(arr => {
+        
+      });
     }
     res.send(user);
   });
