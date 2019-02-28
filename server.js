@@ -99,14 +99,10 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
   
   User.findById(userId, (err, user) => {
     if (err) console.log(`error in /api/exercise/log: ${err}`);
-    // user.log
-    //     .gt('date', from)
-    //     .lt('date', to)
-    //     .limit(limit);
-    console.log(User);
+    // user.log.filter()
     res.send(user);
-  });
-  // next();
+  })
+  next();
 });
 
 // app.post("/api/shorturl/new", function(req,res,next) {
