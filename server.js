@@ -79,8 +79,13 @@ app.post('/api/exercise/add', (req, res, next) => {
   });
 });
 
-app.get('/api/exercise/log?userId=:id&:from&:to&:limit', (req, res, next) => {
-  console.log(req.body);
+app.get('/api/exercise/log?:userId', (req, res, next) => {
+  let userId = req.query.userId;
+  User.findById(userId, (err, user) => {
+    if (err) console.log(`error in /exercise/log: ${err}`);
+    res.send(user);
+  });
+  next();
 });
 
 // app.post("/api/shorturl/new", function(req,res,next) {
