@@ -75,7 +75,7 @@ app.post('/api/exercise/add', (req, res, next) => {
     user.save((err) => {
       if(err) console.log(`findById error: ${err}`);
     });
-    res.send(user.log);
+    res.send({username: user.username, description: des, duration: dur, id: id, date: date});
   });
 });
 
