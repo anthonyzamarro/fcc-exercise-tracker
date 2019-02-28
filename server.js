@@ -79,6 +79,8 @@ app.post('/api/exercise/add', (req, res, next) => {
   });
 });
 
+// Get user logs, optionally sort
+// exampple: /api/exercise/log?userId=SJRB5wHIE&from=2018-05-01&to=2018-06-01
 app.get('/api/exercise/log?:userId', (req, res, next) => {
   let userId = req.query.userId;
   User.findById(userId, (err, user) => {
