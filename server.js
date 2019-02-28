@@ -67,17 +67,20 @@ app.post('/api/exercise/add', (req, res, next) => {
   const dur = req.body.duration;
   let date = req.body.date;
   if (date === '') {
-    date = new Date(Date.now()).toLocaleString();;
+    date =  new Date().toISOString().slice(0, 10);
   }
   
   User.findById(id, (err, user) => {
     user.log = user.log.concat([{description: des, duration: dur, date: date}]);
+    let logCount = user.log.length;
+    
     user.save((err) => {
       if(err) console.log(`findById error: ${err}`);
     });
-    console.log(user);
+    console.log(user, logCount);
+    res.send(user);
   });
-  next();
+  // next();
 });
 
 // app.post("/api/shorturl/new", function(req,res,next) {
