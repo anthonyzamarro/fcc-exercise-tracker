@@ -22,7 +22,7 @@ const userSchema = new Schema({
     count: Number,
     log: [{description: String, duration: Number, date: Date}]
   });
-const User = mongoose.model('URL', userSchema);
+const User = mongoose.model('User', userSchema);
 
 
 app.use(cors())
@@ -38,7 +38,6 @@ app.get('/', (req, res) => {
 
 // Add new user
 app.post('/api/exercise/new-user',(req, res, next) => {
-  console.log(req.body.username)
   const newUser = new User({
       username: req.body.username
     })
@@ -46,7 +45,7 @@ app.post('/api/exercise/new-user',(req, res, next) => {
     if(err) console.log(err);
   })
   res.send({"username":newUser.username,"id":newUser._id});
-  next();
+  // next();
 });
 
 
@@ -68,7 +67,7 @@ app.post('/api/exercise/add', (req, res, next) => {
     date = new Date();
   }
   User.findById(id, (err, user) => {
-    user.log.push({description: des, duration: dur, date: date})
+    user.log = user.log.concat([{description: des, duration: dur, date: date}]);
     user.save((err) => {
       if(err) console.log(`findById error: ${err}`);
     });
