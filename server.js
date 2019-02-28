@@ -18,9 +18,7 @@ mongoose.connect(process.env.MLAB_URI || 'mongodb://localhost/exercise-track' )
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    username:  String,
-    count: Number,
-    log: [{description: String, duration: Number, date: Date}]
+    username:  String
   });
 const User = mongoose.model('User', userSchema);
 
@@ -66,6 +64,10 @@ app.post('/api/exercise/add', (req, res, next) => {
   if (date === '') {
     date = new Date();
   }
+  // User.add({
+  //   count: Number,
+  //   log: [{description: String, duration: Number, date: Date}]
+  // });
   User.findById(id, (err, user) => {
     user.log = user.log.concat([{description: des, duration: dur, date: date}]);
     user.save((err) => {
@@ -73,11 +75,6 @@ app.post('/api/exercise/add', (req, res, next) => {
     });
     console.log(user);
   });
-  // User.findByIdAndUpdate(id, {$set: {description: req.body.description}},(err, user) => {
-  //   if (err) console.log(`error in findById: ${err}`);
-  //   console.log(user);
-  // })
-  // console.log(description, duration, date);
   next();
 });
 
