@@ -99,12 +99,12 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
     if (err) console.log(`error in /api/exercise/log: ${err}`);
     if (from && to) {
       user.log.filter(arr => {
-        
+        console.log(arr);
       });
     }
     res.send(user);
   });
-  next();
+  // next();
 });
 
 // Not found middleware
