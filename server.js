@@ -48,7 +48,6 @@ app.post('/api/exercise/new-user',(req, res, next) => {
   // next();
 });
 
-
 // Get all users
 app.get('/api/exercise/users', (req, res) => {
   User.find({}, (err, users) => {
@@ -68,19 +67,20 @@ app.post('/api/exercise/add', (req, res, next) => {
   let date = req.body.date;
   if (date === '') {
     date =  new Date().toISOString().slice(0, 10);
-  }
-  
+  }  
   User.findById(id, (err, user) => {
     user.log = user.log.concat([{description: des, duration: dur, date: date}]);
     let logCount = user.log.length;
-    
+    user.count = logCount;
     user.save((err) => {
       if(err) console.log(`findById error: ${err}`);
     });
-    console.log(user, logCount);
-    res.send(user);
+    res.send(user.log);
   });
-  // next();
+});
+
+app.get('/api/exercise/log?userId=:id&:from&:to&:limit', (req, res, next) => {
+  console.log(req.body);
 });
 
 // app.post("/api/shorturl/new", function(req,res,next) {
