@@ -20,7 +20,9 @@ mongoose.connect(process.env.MLAB_URI || 'mongodb://localhost/exercise-track' )
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    username:  String
+    username:  String,
+    count: Number,
+    log: [{description: String, duration: Number, date: Date}]
   });
 // const logSchema = new Schema({
 //   count: Number,
@@ -99,7 +101,9 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
   
   User.findById(userId, (err, user) => {
     if (err) console.log(`error in /api/exercise/log: ${err}`);
-    user.log.findById(user.log.)
+    user.log.forEach(logObj => {
+      logObj.find({ data: { $gte: from, $lte: to } })
+    })
     res.send(user);
   });
   // next();
