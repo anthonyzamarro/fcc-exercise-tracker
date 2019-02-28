@@ -19,9 +19,8 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     username:  String,
-    description: String,
-    duration: Number,
-    date: String
+    count: Number,
+    log: [{description: String, duration: Number, date: Date.now}]
   });
 const User = mongoose.model('URL', userSchema);
 
@@ -64,7 +63,7 @@ app.post('/api/exercise/add', (req, res, next) => {
   const id = req.body.userId;
   const description = req.body.description;
   const duration = req.body.duration;
-  const date = req.body.date;
+  let date = req.body.date;
   if (date === '') {
     date = new Date();
   } 
