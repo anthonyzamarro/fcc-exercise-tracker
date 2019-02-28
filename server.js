@@ -29,6 +29,7 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
 
+// Add new user
 app.post('/api/exercise/new-user',(req, res, next) => {
   console.log(req.body.username)
   const newUser = new User({
@@ -41,6 +42,11 @@ app.post('/api/exercise/new-user',(req, res, next) => {
   next();
 });
 
+
+// Get all users
+app.get('/api/exercise/users', (req, res, next) => {
+  
+});
 
 // app.post("/api/shorturl/new", function(req,res,next) {
 //   const userUrl = req.body.url;
