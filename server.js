@@ -70,7 +70,10 @@ app.post('/api/exercise/add', (req, res, next) => {
   if (date === '') {
     let newDate = Date.now();
     date =  moment(newDate).format('YYYY-MM-DD');
-  }  
+  } else if (!moment(req.body.date, 'YYYY/MM/DD',true).isValid()) {
+    res.send(`Cast to Date failed for value "${date}" at path "date"`)
+    console.log(`invalid date: ${date}`);
+  }
   User.findById(id, (err, user) => {
     user.log = user.log.concat([{description: des, duration: dur, date: date}]);
     let logCount = user.log.length;
@@ -87,8 +90,12 @@ app.post('/api/exercise/add', (req, res, next) => {
 // start and end date are exclusive
 app.get('/api/exercise/log?:userId', (req, res, next) => {
   let userId = req.query.userId;
+  let from = req.params.from;
+  let to = req.params.to;
+  let limit = req.params.limit;
   User.findById(userId, (err, user) => {
     if (err) console.log(`error in /exercise/log: ${err}`);
+    console.log(`user: ${user}, from: ${from}, to: ${to}, limit: ${limit}`);
     res.send(user);
   });
   // next();
