@@ -85,7 +85,7 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
     if (err) console.log(`error in /exercise/log: ${err}`);
     res.send(user);
   });
-  next();
+  // next();
 });
 
 // app.post("/api/shorturl/new", function(req,res,next) {
