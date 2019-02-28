@@ -20,7 +20,7 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     username:  String,
     count: Number,
-    log: [{description: String, duration: Number, date: Date.now}]
+    log: [{description: String, duration: Number, date: Date}]
   });
 const User = mongoose.model('URL', userSchema);
 
@@ -61,17 +61,24 @@ app.get('/api/exercise/users', (req, res) => {
 // Add exercise
 app.post('/api/exercise/add', (req, res, next) => {
   const id = req.body.userId;
-  const description = req.body.description;
-  const duration = req.body.duration;
+  const des = req.body.description;
+  const dur = req.body.duration;
   let date = req.body.date;
   if (date === '') {
     date = new Date();
-  } 
+  }
+  User.findById(id, (err, user) => {
+    user.log.push({description: des, duration: dur, date: date})
+    user.save((err) => {
+      if(err) console.log(`findById error: ${err}`);
+    });
+    console.log(user);
+  });
   // User.findByIdAndUpdate(id, {$set: {description: req.body.description}},(err, user) => {
   //   if (err) console.log(`error in findById: ${err}`);
   //   console.log(user);
   // })
-  console.log(description, duration, date);
+  // console.log(description, duration, date);
   next();
 });
 
