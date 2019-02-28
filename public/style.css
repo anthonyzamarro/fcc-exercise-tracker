@@ -62,3 +62,9 @@ code {
   background-color: #FFFEC4;
   padding: 2px;
 }
+
+.all-users { 
+  display: inline-block;
+  width: 100%;
+}
+  
