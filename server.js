@@ -10,6 +10,8 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 
+const moment = require('moment');
+
 const cors = require('cors')
 
 const mongoose = require('mongoose')
@@ -66,7 +68,8 @@ app.post('/api/exercise/add', (req, res, next) => {
   const dur = req.body.duration;
   let date = req.body.date;
   if (date === '') {
-    date =  new Date().toISOString().slice(0, 10);
+    let newDate = Date.now();
+    date =  moment(newDate).format('YYYY-MM-DD');
   }  
   User.findById(id, (err, user) => {
     user.log = user.log.concat([{description: des, duration: dur, date: date}]);
@@ -80,7 +83,8 @@ app.post('/api/exercise/add', (req, res, next) => {
 });
 
 // Get user logs, optionally sort
-// exampple: /api/exercise/log?userId=SJRB5wHIE&from=2018-05-01&to=2018-06-01
+// example: /api/exercise/log?userId=SJRB5wHIE&from=2018-04-28&to=2018-06-01&limit=1
+// start and end date are exclusive
 app.get('/api/exercise/log?:userId', (req, res, next) => {
   let userId = req.query.userId;
   User.findById(userId, (err, user) => {
