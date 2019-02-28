@@ -53,9 +53,10 @@ app.post('/api/exercise/new-user',(req, res, next) => {
 app.get('/api/exercise/users', (req, res) => {
   User.find({}, (err, users) => {
     if (err) console.log(`error in find: ${err}`);
-      let m = users.filter(user => console.log(user));
-      console.log(m);
-      res.send(users);
+      let nameAndId = users.map(user => {
+        return {username: user.username, id: user._id}
+      });
+      res.send(nameAndId);
   })
 });
 
@@ -66,7 +67,7 @@ app.post('/api/exercise/add', (req, res, next) => {
   const dur = req.body.duration;
   let date = req.body.date;
   if (date === '') {
-    date = new Date();
+    date = new Date(Date.now()).toLocaleString();;
   }
   
   User.findById(id, (err, user) => {
