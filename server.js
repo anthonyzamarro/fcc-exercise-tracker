@@ -87,7 +87,7 @@ app.post('/api/exercise/add', (req, res, next) => {
 });
 
 // Get user logs, optionally sort
-// example: /api/exercise/log?userId=SJRB5wHIE&from=2018-04-28&to=2018-06-01&limit=1
+// example: /api/exercise/log?userId=5c77ea1e8eb7580070254de7&from=2018-05-28&to=2018-06-30&limit=1
 // start and end date are exclusive
 app.get('/api/exercise/log?:userId', (req, res, next) => {
   let userId = req.query.userId;
