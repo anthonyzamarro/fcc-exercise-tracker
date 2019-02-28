@@ -95,32 +95,15 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
   let to = req.query.to;
   let limit = req.query.limit;
   
-  
-  
   User.findById(userId, (err, user) => {
     if (err) console.log(`error in /api/exercise/log: ${err}`);
-    // user.log.filter()
+    if (from) {
+      
+    }
     res.send(user);
-  })
+  });
   next();
 });
-
-// app.post("/api/shorturl/new", function(req,res,next) {
-//   const userUrl = req.body.url;
-//   if (validUrl.isWebUri(userUrl)){
-//     const newUrl = new URL({name: userUrl, index: Math.round((Math.random().toFixed(4) * 1000))});
-//     newUrl.save(function (err) {
-//     if (err) return console.log('save error',err);
-//     });
-//     res.send({"original_url":newUrl.name,"short_url":newUrl.index});
-//   } else {
-//     res.send({"error":"invalid URL"});
-//   }
-//   next();
-// });
-
-
-
 
 // Not found middleware
 app.use((req, res, next) => {
