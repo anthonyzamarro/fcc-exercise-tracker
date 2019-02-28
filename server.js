@@ -67,12 +67,13 @@ app.post('/api/exercise/add', (req, res, next) => {
   const des = req.body.description;
   const dur = req.body.duration;
   let date = req.body.date;
+  // validate Date input
   if (date === '') {
     let newDate = Date.now();
     date =  moment(newDate).format('YYYY-MM-DD');
-  } else if (!moment(req.body.date, 'YYYY/MM/DD',true).isValid()) {
-    res.send(`Cast to Date failed for value "${date}" at path "date"`)
-    console.log(`invalid date: ${date}`);
+  } else if (!moment(req.body.date, 'YYYY-MM-DD',true).isValid()) {
+    res.json(`${date} is an invalid date. Please enter a valid date in the format YYYY-MM-DD`);
+    return;
   }
   User.findById(id, (err, user) => {
     user.log = user.log.concat([{description: des, duration: dur, date: date}]);
