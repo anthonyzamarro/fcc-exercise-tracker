@@ -91,12 +91,19 @@ app.post('/api/exercise/add', (req, res, next) => {
 // start and end date are exclusive
 app.get('/api/exercise/log?:userId', (req, res, next) => {
   let userId = req.query.userId;
-  let from = req.params.from;
-  let to = req.params.to;
-  let limit = req.params.limit;
+  let from = req.query.from;
+  let to = req.query.to;
+  let limit = req.query.limit;
+  
+  
+  
   User.findById(userId, (err, user) => {
-    if (err) console.log(`error in /exercise/log: ${err}`);
-    console.log(`user: ${user}, from: ${from}, to: ${to}, limit: ${limit}`);
+    if (err) console.log(`error in /api/exercise/log: ${err}`);
+    // user.log
+    //     .gt('date', from)
+    //     .lt('date', to)
+    //     .limit(limit);
+    console.log(User);
     res.send(user);
   });
   // next();
