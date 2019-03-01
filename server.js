@@ -19,20 +19,16 @@ mongoose.connect(process.env.MLAB_URI || 'mongodb://localhost/exercise-track' )
 
 const Schema = mongoose.Schema;
 
-const logSchema = new Schema({
-  count: Number,
-  log: [{description: String, duration: Number, date: Date}]
-});
-
 const userSchema = new Schema({
     username:  String,
     count: Number,
-    // log: [{description: String, duration: Number, date: Date}]
-    child: logSchema
+    log: [{description: String, duration: Number, date: Date}]
   });
-
+// const logSchema = new Schema({
+//   count: Number,
+//   log: [{description: String, duration: Number, date: Date}]
+// });
 const User = mongoose.model('User', userSchema);
-const Log = mongoose.model('Log', logSchema);
 
 
 app.use(cors())
@@ -84,13 +80,12 @@ app.post('/api/exercise/add', (req, res, next) => {
     return;
   }
   User.findById(id, (err, user) => {
-    console.log(user)
-    // user.log = user.log.concat([{description: des, duration: dur, date: date}]);
-    // let logCount = user.log.length;
-    // user.count = logCount;
-    // user.save((err) => {
-    //   if(err) console.log(`findById error: ${err}`);
-    // });
+    user.log = user.log.concat([{description: des, duration: dur, date: date}]);
+    let logCount = user.log.length;
+    user.count = logCount;
+    user.save((err) => {
+      if(err) console.log(`findById error: ${err}`);
+    });
     res.send({username: user.username, description: des, duration: dur, id: id, date: date});
   });
 });
@@ -106,8 +101,9 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
   
   User.findById(userId, (err, user) => {
     if (err) console.log(`error in /api/exercise/log: ${err}`);
-    // const requestedUser = user.log.find('5c789b42854b6a0c19698efd');
-    console.log(user);
+    let filtered = user.log.filter(logObj => {
+      logObj
+    })
     res.send(user);
   });
   // next();
