@@ -101,11 +101,11 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
   
   // User.find({_id: userId }, (err, user) => {
   User.findById(userId, (err, user) => {
-    if (err) console.log(`error in /api/exercise/log: ${err}`);
-    let filtered = user.log.filter(logObj => {
-      console.log(logObj.date);
+    if (err) return res.send('<h1>userId not found. Please enter a valid userId.</h1>');
+    let filteredByDate = user.log.filter(logObj => {
+      
     })
-    console.log(user]);
+    // console.log(user);
     res.send(user);
   });
   // next();
