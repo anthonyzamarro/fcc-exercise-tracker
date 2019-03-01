@@ -31,7 +31,7 @@ const userSchema = new Schema({
   username:  String,
   count: Number,
   // log: [{description: String, duration: Number, date: Date}]
-  child: logSchema
+  child: [logSchema]
 });
 
 const User = mongoose.model('User', userSchema);
@@ -84,26 +84,26 @@ app.post('/api/exercise/add', (req, res, next) => {
   const newLog = new Log({
     log: logArray.concat([{description: des, duration: dur, date: date}])
   });
-  
-  console.log(newLog);
+
   
   // validate Date input
-  // if (date === '') {
-  //   let newDate = Date.now();
-  //   date =  moment(newDate).format('YYYY-MM-DD');
-  // } else if (!moment(req.body.date, 'YYYY-MM-DD',true).isValid()) {
-  //   res.json(`${date} is an invalid date. Please enter a valid date in the format YYYY-MM-DD`);
-  //   return;
-  // }
-  // User.findById(id, (err, user) => {
-  //   user.log = user.log.concat([{description: des, duration: dur, date: date}]);
-  //   let logCount = user.log.length;
-  //   user.count = logCount;
-  //   user.save((err) => {
-  //     if(err) console.log(`findById error: ${err}`);
-  //   });
-  //   res.send({username: user.username, description: des, duration: dur, id: id, date: date});
-  // });
+  if (date === '') {
+    let newDate = Date.now();
+    date =  moment(newDate).format('YYYY-MM-DD');
+  } else if (!moment(req.body.date, 'YYYY-MM-DD',true).isValid()) {
+    res.json(`${date} is an invalid date. Please enter a valid date in the format YYYY-MM-DD`);
+    return;
+  }
+  User.findById(id, (err, user) => {
+    user.child = user.child.concat([Log]);
+    // let logCount = user.log.length;
+    // user.count = logCount;
+    console.log(user);
+    user.save((err) => {
+      if(err) console.log(`findById error: ${err}`);
+    });
+    res.send({username: user.username, description: des, duration: dur, id: id, date: date});
+  });
 });
 
 // Get user logs, optionally sort
@@ -120,6 +120,10 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
     // let filtered = user.log.filter(logObj => {
     //   logObj
     // })
+    user.child.forEach(l => {
+      console.log(l)
+    });
+    
     res.send(user);
   });
   // next();
