@@ -99,11 +99,12 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
   let to = req.query.to;
   let limit = req.query.limit;
   
-  User.findById(userId, (err, user) => {
+  User.find({_id: userId }, (err, user) => {
     if (err) console.log(`error in /api/exercise/log: ${err}`);
-    let filtered = user.log.filter(logObj => {
-      logObj
-    })
+    // let filtered = user.log.filter(logObj => {
+    //   logObj
+    // })
+    console.log(user);
     res.send(user);
   });
   // next();
