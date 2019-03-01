@@ -101,13 +101,8 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
   
   User.findById(userId, (err, user) => {
     if (err) console.log(`error in /api/exercise/log: ${err}`);
-    user.log.forEach(logObj => {
-      console.log(logObj);
-      logObj.findByIf(logObj._id, (err, user) => {
-        if(err) console.log(`logObj err: ${err}`);
-        console.log(user);
-      });
-    })
+    // const requestedUser = user.log
+    console.log(user);
     res.send(user);
   });
   // next();
