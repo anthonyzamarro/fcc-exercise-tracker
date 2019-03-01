@@ -92,6 +92,7 @@ app.post('/api/exercise/add', (req, res, next) => {
 
 // Get user logs, optionally sort
 // /api/exercise/log?userId=5c792bb9c7e55d1e93da420d
+// /api/exercise/log?userId=5c792bb9c7e55d1e93da420d&from=2019-03-14&to=2019-03-22
 // start and end date are exclusive
 app.get('/api/exercise/log?:userId', (req, res, next) => {
   let userId = req.query.userId;
@@ -102,14 +103,16 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
   User.findById(userId, (err, user) => {
     if (err) return res.send('<h1>userId not found. Please enter a valid userId.</h1>');
     let filteredByDate = user.log.filter(logObj => {
-            
+        if (moment(logObj.date).isBetween(from, to)) {
+          return logObj
+        }
     });
-    // console.log(user);
+    console.log(filteredByDate);
     res.send(user);
   });
   // const u = User.findById(userId).sort();
   // console.log(u)
-  next();
+  // next();
 });
 
 // Not found middleware
