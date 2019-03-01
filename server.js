@@ -100,14 +100,15 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
   let limit = req.query.limit;
   
   // User.find({_id: userId }, (err, user) => {
-  User.findById(userId, (err, user) => {
-    if (err) return res.send('<h1>userId not found. Please enter a valid userId.</h1>');
-    let filteredByDate = user.log.filter(logObj => {
+//   User.findById(userId, (err, user) => {
+//     if (err) return res.send('<h1>userId not found. Please enter a valid userId.</h1>');
+//     let filteredByDate = user.log.filter(logObj => {
       
-    })
-    // console.log(user);
-    res.send(user);
-  });
+//     });
+//     // console.log(user);
+//     res.send(user);
+//   });
+  User.findById(userId)
   // next();
 });
 
