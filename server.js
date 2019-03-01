@@ -91,7 +91,7 @@ app.post('/api/exercise/add', (req, res, next) => {
 });
 
 // Get user logs, optionally sort
-// example: /api/exercise/log?userId=5c77ea1e8eb7580070254de7&from=2018-05-28&to=2018-06-30&limit=1
+// /api/exercise/log?userId=5c792bb9c7e55d1e93da420d
 // start and end date are exclusive
 app.get('/api/exercise/log?:userId', (req, res, next) => {
   let userId = req.query.userId;
@@ -99,12 +99,13 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
   let to = req.query.to;
   let limit = req.query.limit;
   
-  User.find({_id: userId }, (err, user) => {
+  // User.find({_id: userId }, (err, user) => {
+  User.findById(userId, (err, user) => {
     if (err) console.log(`error in /api/exercise/log: ${err}`);
-    // let filtered = user.log.filter(logObj => {
-    //   logObj
-    // })
-    console.log(user);
+    let filtered = user.log.filter(logObj => {
+      console.log(logObj.date);
+    })
+    console.log(user]);
     res.send(user);
   });
   // next();
