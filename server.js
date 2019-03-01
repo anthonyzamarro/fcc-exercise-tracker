@@ -19,21 +19,15 @@ mongoose.connect(process.env.MLAB_URI || 'mongodb://localhost/exercise-track' )
 
 const Schema = mongoose.Schema;
 
-const logSchema = new Schema({
-  count: Number,
-  log: [{description: String, duration: Number, date: Date}]
-});
-
-const Logs = mongoose.model('logSchema', logSchema);
-
-
 const userSchema = new Schema({
     username:  String,
     count: Number,
-    // log: [{description: String, duration: Number, date: Date}]
-    log: Logs
+    log: [{description: String, duration: Number, date: Date}]
   });
-
+// const logSchema = new Schema({
+//   count: Number,
+//   log: [{description: String, duration: Number, date: Date}]
+// });
 const User = mongoose.model('User', userSchema);
 
 
@@ -86,16 +80,14 @@ app.post('/api/exercise/add', (req, res, next) => {
     return;
   }
   User.findById(id, (err, user) => {
-    console.log(user);
-    // user.log = user.log.concat([{description: des, duration: dur, date: date}]);
-    // let logCount = user.log.length;
-    // user.count = logCount;
-    // user.save((err) => {
-    //   if(err) console.log(`findById error: ${err}`);
-    // });
-    // res.send({username: user.username, description: des, duration: dur, id: id, date: date});
+    user.log = user.log.concat([{description: des, duration: dur, date: date}]);
+    let logCount = user.log.length;
+    user.count = logCount;
+    user.save((err) => {
+      if(err) console.log(`findById error: ${err}`);
+    });
+    res.send({username: user.username, description: des, duration: dur, id: id, date: date});
   });
-  next();
 });
 
 // Get user logs, optionally sort
@@ -110,7 +102,11 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
   User.findById(userId, (err, user) => {
     if (err) console.log(`error in /api/exercise/log: ${err}`);
     user.log.forEach(logObj => {
-      // logObj.find({ data: { $gte: from, $lte: to } })
+      console.log(logObj);
+      logObj.findByIf(logObj._id, (err, user) => {
+        if(err) console.log(`logObj err: ${err}`);
+        console.log(user);
+      });
     })
     res.send(user);
   });
