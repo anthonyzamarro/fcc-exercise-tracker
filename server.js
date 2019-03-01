@@ -107,6 +107,7 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
           return logObj
         }
     });
+    let limited = filteredByDate.
     console.log(filteredByDate);
     res.send(user);
   });
