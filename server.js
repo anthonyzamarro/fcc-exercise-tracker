@@ -108,8 +108,9 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
 //     // console.log(user);
 //     res.send(user);
 //   });
-  User.findById(userId)
-  // next();
+  const u = User.findById(userId).sort();
+  console.log(u)
+  next();
 });
 
 // Not found middleware
