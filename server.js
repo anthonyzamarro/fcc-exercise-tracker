@@ -108,7 +108,10 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
           }
       });
     }
-    let limited = filteredByDate.slice(0, limit);
+    if (limit) {
+      limited = filteredByDate.slice(0, limit);
+    }
+    
     console.log(filteredByDate, limited);
     res.send(user);
   });
