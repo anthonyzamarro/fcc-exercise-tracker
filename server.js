@@ -24,10 +24,7 @@ const userSchema = new Schema({
     count: Number,
     log: [{description: String, duration: Number, date: Date}]
   });
-// const logSchema = new Schema({
-//   count: Number,
-//   log: [{description: String, duration: Number, date: Date}]
-// });
+
 const User = mongoose.model('User', userSchema);
 
 
@@ -102,13 +99,14 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
   
   User.findById(userId, (err, user) => {
     if (err) return res.send('<h1>userId not found. Please enter a valid userId.</h1>');
+    // console.log(user.log);
     let filteredByDate = user.log.filter(logObj => {
         if (moment(logObj.date).isBetween(from, to)) {
           return logObj
         }
     });
-    let limited = filteredByDate.
-    console.log(filteredByDate);
+    let limited = filteredByDate.slice(0, limit);
+    console.log(limited);
     res.send(user);
   });
   // const u = User.findById(userId).sort();
