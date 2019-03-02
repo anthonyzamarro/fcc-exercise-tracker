@@ -96,17 +96,20 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
   let from = req.query.from;
   let to = req.query.to;
   let limit = req.query.limit;
+  let filteredByDate, limited;
   
   User.findById(userId, (err, user) => {
     if (err) return res.send('<h1>userId not found. Please enter a valid userId.</h1>');
     // console.log(user.log);
-    let filteredByDate = user.log.filter(logObj => {
-        if (moment(logObj.date).isBetween(from, to)) {
-          return logObj
-        }
-    });
+    if (from && to) {
+      filteredByDate = user.log.filter(logObj => {
+          if (moment(logObj.date).isBetween(from, to)) {
+            return logObj
+          }
+      });
+    }
     let limited = filteredByDate.slice(0, limit);
-    console.log(limited);
+    console.log(filteredByDate, limited);
     res.send(user);
   });
   // const u = User.findById(userId).sort();
