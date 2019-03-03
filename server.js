@@ -105,6 +105,9 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
       if from and to are present, then get in between
       else if from is only present, then get dates after provided date
       else if to is only present, then get dates up to provided date
+      
+      if filteredByDate is > 0, then slice(0, limit)
+      else user.logs.slice(0, limit)
     */
     if (from && to) {
       filteredByDate = user.log.filter(logObj => {
@@ -112,6 +115,8 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
             return logObj
           }
       });
+    } else if (from && !to) {
+      
     }
     if (limit) {
       limited = filteredByDate.slice(0, limit);
