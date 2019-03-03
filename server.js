@@ -96,7 +96,7 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
   let from = req.query.from;
   let to = req.query.to;
   let limit = req.query.limit;
-  let filteredByDate, limited;
+  let filteredByDate, limited, count;
   
   User.findById(userId, (err, user) => {
     if (err) return res.send('<h1>userId not found. Please enter a valid userId.</h1>');
@@ -106,7 +106,7 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
       else if from is only present, then get dates after provided date
       else if to is only present, then get dates up to provided date
       
-      if filteredByDate is > 0, then slice(0, limit)
+      if filteredByDate is !undefined, then slice(0, limit)
       else user.logs.slice(0, limit)
     */
     if (from && to) {
@@ -130,12 +130,20 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
     }
     if (filteredByDate !== undefined) {
       limited = filteredByDate.slice(0, limit);
+      count = limited.length;
     } else {
       limited = user.log.slice(0, limit);
+      count = limited.length;
     }
     
-    console.log(limited);
-    res.send(user);
+    if(filteredByDate && limited) {
+      return res.send({_id: user._id, username: user.username, count: count, log: limited});
+    } else if (filteredByDate && limited) {
+      return res.send(user);
+    }
+    
+    // console.log(limited);
+    // res.send(user);
   });
   // const u = User.findById(userId).sort();
   // console.log(u)
