@@ -138,7 +138,9 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
     
     if(filteredByDate && limited) {
       return res.send({_id: user._id, username: user.username, count: count, log: limited});
-    } else if (filteredByDate && limited) {
+    } else if (filteredByDate === undefined && limited) {
+      return res.send({_id: user._id, username: user.username, count: count, log: limited});
+    } else {
       return res.send(user);
     }
     
