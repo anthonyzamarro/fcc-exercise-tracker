@@ -101,6 +101,11 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
   User.findById(userId, (err, user) => {
     if (err) return res.send('<h1>userId not found. Please enter a valid userId.</h1>');
     // console.log(user.log);
+    /*
+      if from and to are present, then get in between
+      else if from is only present, then get dates after provided date
+      else if to is only present, then get dates up to provided date
+    */
     if (from && to) {
       filteredByDate = user.log.filter(logObj => {
           if (moment(logObj.date).isBetween(from, to)) {
@@ -119,6 +124,11 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
   // console.log(u)
   // next();
 });
+
+
+// https://fuschia-custard.glitch.me/api/exercise/log?userId=SyjKV2O8V
+
+
 
 // Not found middleware
 app.use((req, res, next) => {
