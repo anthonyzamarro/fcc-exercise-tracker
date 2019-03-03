@@ -1,11 +1,24 @@
-# Exercise Tracker REST API
+# FreeCodeCamp: Exercise Tracker
 
-#### A microservice project, part of Free Code Camp's curriculum
+  This project is a part of the [FreeCodeCamp](https://www.freecodecamp.com) APIs & Microservices track.
 
-### User Stories
+  You can view my finished work [here](https://fcc--recipe-box.herokuapp.com/).
 
-1. I can create a user by posting form data username to /api/exercise/new-user and returned will be an object with username and _id.
-2. I can get an array of all users by getting api/exercise/users with the same info as when creating a user.
-3. I can add an exercise to any user by posting form data userId(_id), description, duration, and optionally date to /api/exercise/add. If no date supplied it will use current date. Returned will the the user object with also with the exercise fields added.
-4. I can retrieve a full exercise log of any user by getting /api/exercise/log with a parameter of userId(_id). Return will be the user object with added array log and count (total exercise count).
-5. I can retrieve part of the log of any user by also passing along optional parameters of from & to or limit. (Date format yyyy-mm-dd, limit = int)
+## How to use
+
+ - Enter a username  in the Create a new User  box and click submit to add a new user
+ - Click See All Users to find the ID of the user you just entered
+ - Paste the userId  into the first box of Add Exercises and enter a description , duration , and date  for the exercise and click submit
+ - Get your userId  and paste it into the first box of View A Single User's Logs and enter your filter criteria and click submit
+## Technologies Used
+
+  The tech. used for this project includes:
+
+  - HTML5
+  - JavaScript (ES6)
+  - Node.js
+  - Express.js
+  - MongoDB
+  - Mongoose
+  - Git/Github
+  
