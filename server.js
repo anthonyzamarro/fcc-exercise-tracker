@@ -115,11 +115,23 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
             return logObj
           }
       });
-    } else if (from && !to) {
-      
+    } else if (from && to === undefined) {
+      filteredByDate = user.log.filter(logObj => {
+          if (moment(logObj.date).isAfter(from)) {
+            return logObj
+          }
+      });
+    } else if (from === undefined && to) {
+      filteredByDate = user.log.filter(logObj => {
+          if (moment(logObj.date).isBefore(to)) {
+            return logObj
+          }
+      });
     }
-    if (limit) {
+    if (filteredByDate.length > 0) {
       limited = filteredByDate.slice(0, limit);
+    } else {
+      limited = user.log.slice(0, limit);
     }
     
     console.log(filteredByDate, limited);
