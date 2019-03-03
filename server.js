@@ -1,14 +1,9 @@
 // ### User Stories
 
-// 3. I can add an exercise to any user by posting form data userId(_id), description, duration, and optionally date to /api/exercise/add. 
-// If no date supplied it will use current date. Returned will be the user object with the exercise fields added.
-// 4. I can retrieve a full exercise log of any user by getting /api/exercise/log with a parameter of userId(_id). 
-// Return will be the user object with added array log and count (total exercise count).
-// 5. I can retrieve part of the log of any user by also passing along optional parameters of from & to or limit. (Date format yyyy-mm-dd, limit = int)
-
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
+require('dotenv').config()
 
 const moment = require('moment');
 
@@ -93,7 +88,7 @@ app.post('/api/exercise/add', (req, res, next) => {
 // start and end date are exclusive
 app.get('/api/exercise/log?:userId', (req, res, next) => {
   let userId = req.query.userId;
-  let from = req.query.from;
+  let fromParam = req.query.from;
   let to = req.query.to;
   let limit = req.query.limit;
   let filteredByDate, limited, count;
@@ -109,19 +104,19 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
       if filteredByDate is !undefined, then slice(0, limit)
       else user.logs.slice(0, limit)
     */
-    if (from && to) {
+    if (fromParam && to) {
       filteredByDate = user.log.filter(logObj => {
-          if (moment(logObj.date).isBetween(from, to)) {
+          if (moment(logObj.date).isBetween(fromParam, to)) {
             return logObj
           }
       });
-    } else if (from && to === undefined) {
+    } else if (fromParam && to === undefined) {
       filteredByDate = user.log.filter(logObj => {
-          if (moment(logObj.date).isAfter(from)) {
+          if (moment(logObj.date).isAfter(fromParam)) {
             return logObj
           }
       });
-    } else if (from === undefined && to) {
+    } else if (fromParam === undefined && to) {
       filteredByDate = user.log.filter(logObj => {
           if (moment(logObj.date).isBefore(to)) {
             return logObj
@@ -135,8 +130,8 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
       limited = user.log.slice(0, limit);
       count = limited.length;
     }
-    
     if(filteredByDate && limited) {
+      
       return res.send({_id: user._id, username: user.username, count: count, log: limited});
     } else if (filteredByDate === undefined && limited) {
       return res.send({_id: user._id, username: user.username, count: count, log: limited});
