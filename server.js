@@ -128,13 +128,13 @@ app.get('/api/exercise/log?:userId', (req, res, next) => {
           }
       });
     }
-    if (filteredByDate.length > 0) {
+    if (filteredByDate !== undefined) {
       limited = filteredByDate.slice(0, limit);
     } else {
       limited = user.log.slice(0, limit);
     }
     
-    console.log(filteredByDate, limited);
+    console.log(limited);
     res.send(user);
   });
   // const u = User.findById(userId).sort();
